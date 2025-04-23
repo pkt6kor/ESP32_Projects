@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Upload COM9",
+      "type": "shell",
+      "command": "${env:USERPROFILE}\\.platformio\\penv\\Scripts\\platformio.exe",
+      "args": ["run", "-e", "Board_A", "--target", "upload"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Upload COM10",
+      "type": "shell",
+      "command": "${env:USERPROFILE}\\.platformio\\penv\\Scripts\\platformio.exe",
+      "args": ["run", "-e", "Board_B", "--target", "upload"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Upload Both COM Ports",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Upload COM9", "Upload COM10"]
+    },
+    {
+      "label": "Open Both PuTTY Sessions",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "launch_putty.py"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Open COM10 PuTTY Only",
+      "type": "shell",
+      "command": "putty.exe",
+      "args": ["-load", "ETHERNET_B"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Open Both PuTTY Sessions",
+      "type": "shell",
+      "command": "cmd",
+      "args": ["/c", "start putty.exe -load ETHERNET_A && start putty.exe -load ETHERNET_B"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Upload and Open COM9 PuTTY",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Upload COM9", "Open COM9 PuTTY Only"]
+    },
+    {
+      "label": "Upload and Open COM10 PuTTY",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Upload COM10", "Open COM10 PuTTY Only"]
+    },
+    {
+      "label": "Upload and Open Both PuTTY",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Upload COM9", "Open COM9 PuTTY Only","Upload COM10", "Open COM10 PuTTY Only"]
+    }
+  ]
+}
